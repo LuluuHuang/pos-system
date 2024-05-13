@@ -9,6 +9,7 @@ export default defineConfig({
   plugins: [
     vue(),
   ],
+  base:"/POS-system/",
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
