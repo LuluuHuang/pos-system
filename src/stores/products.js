@@ -5,7 +5,7 @@ export default defineStore('products',{
             {
                 "name": "黃芪",
                 "prices": [
-                    { "weight": "斤", "price": 300 },
+                    { "weight": "j斤", "price": 300 },
                     { "weight": "兩", "price": 20 },
                     { "weight": "錢", "price": 5 }
                 ]
