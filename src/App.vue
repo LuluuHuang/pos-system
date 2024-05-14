@@ -13,6 +13,6 @@ import NavBar from './components/NavBar.vue'
   <FooterContent></FooterContent>
 </template>
 
-<style scoped>
-
+<style lang="scss">
+  @import"./assets/all.scss";
 </style>
