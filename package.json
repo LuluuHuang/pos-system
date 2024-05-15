@@ -1,5 +1,5 @@
 {
-  "name": "vite-project",
+  "name": "pos-system",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
     "format": "prettier --write src/",
+    "gh": "gh-pages -d dist",
     "deploy": "vite build && gh-pages -d dist"
   },
   "dependencies": {

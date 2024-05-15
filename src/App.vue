@@ -1,6 +1,5 @@
 <script setup>
 import { RouterView } from 'vue-router'
-// import HomePage from './components/HomePage.vue'
 import FooterContent from './components/FooterContent.vue'
 import NavBar from './components/NavBar.vue'
 </script>
@@ -14,5 +13,5 @@ import NavBar from './components/NavBar.vue'
 </template>
 
 <style lang="scss">
-  @import"./assets/all.scss";
+  @import "./assets/all.scss";
 </style>
