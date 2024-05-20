@@ -1,7 +1,7 @@
 <template>
     <div class="row">
         <div class="col-md-3 col-12 d-flex">
-            <lable class="col-2 m-2 col-form-label">品項</lable>
+            <div class="col-2 m-2 col-form-label">品項</div>
             <div class="col-10">
                 <input type="text" v-model="searchItem" class="form-control m-2" placeholder="輸入品項">
             </div>
