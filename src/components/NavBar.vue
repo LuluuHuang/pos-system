@@ -16,6 +16,9 @@
                     <li class="nav-item">
                         <router-link to="/update" class="nav-link">更新價格</router-link>
                     </li>
+                    <li class="nav-item">
+                        <router-link to="/addndelete" class="nav-link">新增刪除</router-link>
+                    </li>
                 </ul>
             </div>
         </div>
