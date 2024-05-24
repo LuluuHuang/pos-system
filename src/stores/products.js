@@ -27,5 +27,13 @@ export default defineStore('products',{
                 ]
             }
         ],
+        searchItem:'',
+        currentProduct:''
     }),
+    actions:{
+        search(){
+            console.log(1);
+            this.currentProduct = this.products.find((item)=>item.name===this.searchItem);
+        }
+    },
 })
