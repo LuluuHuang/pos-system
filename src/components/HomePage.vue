@@ -24,7 +24,7 @@
     </div>
 </template>
 <script>
-    import products from "../stores/products";
+    import { useProductsStore } from "../stores/products";
     import { mapState } from "pinia";
     export default{
         data(){
@@ -45,7 +45,7 @@
             },
         },
         computed:{
-            ...mapState(products,['products'])
+            ...mapState(useProductsStore,['products'])
         },
     }
 </script>
