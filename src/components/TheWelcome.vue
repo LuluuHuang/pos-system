@@ -1,40 +1,79 @@
-<script>
-export default {
-  data() {
-    return {
-      currentTime: ''
-    }
-  },
-  methods: {
-    getCurrentTime() {
-      const now = new Date()
-      const year = now.getFullYear()
-      const month = now.getMonth() + 1 < 10 ? '0' + (now.getMonth() + 1) : now.getMonth() + 1
-      const date = now.getDate() < 10 ? '0' + now.getDate() : now.getDate()
-      const hours = now.getHours() < 10 ? '0' + now.getHours() : now.getHours()
-      const minutes = now.getMinutes() < 10 ? '0' + now.getMinutes() : now.getMinutes()
-      const seconds = now.getSeconds() < 10 ? '0' + now.getSeconds() : now.getSeconds()
+<script setup>
+import { auth } from '@/stores/firebase.js';
+import { createUserWithEmailAndPassword,signInWithEmailAndPassword } from 'firebase/auth';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+// import { storeData } from '@/stores/firebase.js';
 
-      // 格式化时间
-      this.currentTime = `${year}年${month}月${date}日 ${hours}:${minutes}:${seconds}`
-    }
-  },
-  created() {
-    // 在组件创建时调用获取当前时间的方法
-    this.getCurrentTime()
+const regAccount = ref('');
+const regPassword = ref('');
+const loginAccount = ref('');
+const loginPassword = ref('');
+const router = useRouter();
+// const productsData = ref([]);
 
-    // 每秒钟更新一次时间
-    setInterval(() => {
-      this.getCurrentTime()
-    }, 1000)
-  }
+function reg(){
+  createUserWithEmailAndPassword(auth,regAccount.value,regPassword.value)
+  .then(
+    ()=>{
+      console.log('註冊成功');
+      router.push('/homepage');
+    }
+  )
 }
+
+function login(){
+  signInWithEmailAndPassword(auth,loginAccount.value,loginPassword.value)
+  .then(
+    ()=>{
+      console.log('登入成功');
+      router.push('/homepage');
+    }
+  )
+}
+
+// storeData().then(data => {
+//   productsData.value = data[0].product;
+// }).catch(error => {
+//   console.error("Error: ", error);
+// });
+
 </script>
 
 <template>
+  <!-- <div class="row" >
+    <div v-for="(item,i) in productsData" :key="i">
+      {{ item.name }}
+    </div>
+  </div> -->
   <div class="row">
-    <div class="col-12">
-      {{ currentTime }}
+    <ul class="nav nav-tabs col-6 pt-3" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="reg-tab" data-bs-toggle="tab" data-bs-target="#reg" type="button" role="tab" aria-controls="reg" aria-selected="true">註冊</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="login-tab" data-bs-toggle="tab" data-bs-target="#login" type="button" role="tab" aria-controls="login" aria-selected="false">登入</button>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="reg" role="tabpanel" aria-labelledby="reg-tab">
+        <div class="col-6 pt-3">
+          <input class="form-control" type="text" name="" id="" v-model="regAccount">
+          <br>
+          <input class="form-control" type="text" name="" id="" v-model="regPassword">
+          <br>
+          <button type="button" class="btn btn-primary" @click="reg">註冊</button>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="login" role="tabpanel" aria-labelledby="login-tab">
+        <div class="col-6 pt-3">
+          <input class="form-control" type="text" name="" id="" v-model="loginAccount">
+          <br>
+          <input class="form-control" type="text" name="" id="" v-model="loginPassword">
+          <br>
+          <button type="button" class="btn btn-primary" @click="login">登入</button>
+        </div>
+      </div>
     </div>
   </div>
 </template>

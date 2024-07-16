@@ -6,7 +6,8 @@
         <input 
             type="text" 
             class="form-control my-2" 
-            v-model="newProductName" 
+            v-model="newProductName"
+            required
         />
         <p>價錢</p>
         <input
@@ -51,42 +52,54 @@
         <div v-else>
             <p>無此商品</p>
         </div>
-        <button class="btn btn-primary" @click="store.deleteProduct()">確定刪除</button>
+        <button class="btn btn-primary" @click="deleteBtn">確定刪除</button>
         </div>
     </div>
 </template>
 <script setup>
 import { ref } from 'vue'
-import { useProductsStore } from '../stores/products'
-// import { mapActions, mapState } from "pinia";
-const store = useProductsStore()
-// export default{
-//     computed:{
-//         ...mapState(products,['products','searchItem','currentProduct'])
-//     },
-//     methods:{
-//         ...mapActions(products,['search'])
-//     }
-// }
-//本地新增商品狀態
+import { useProductsStore } from '../stores/products';
+import { addProduct,deleteProduct } from '@/stores/firebase.js';
+import { addDoc } from 'firebase/firestore';
+const store = useProductsStore();
 const newProductName = ref('')
 const newProductPricePerJin = ref()
 const newProductPricePerLiang = ref()
 const newProductPricePerQian = ref()
+const productContent = ref({})
+// const deleteItem = ref('');
+const getCurrentTime = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth() + 1 < 10 ? '0' + (now.getMonth() + 1) : now.getMonth() + 1;
+    const date = now.getDate() < 10 ? '0' + now.getDate() : now.getDate();
+    return `${year}年${month}月${date}日` ;
+}
 const add = () => {
-    const newProduct = {
+    productContent.value = {
         name: newProductName.value,
+        date:getCurrentTime(),
         prices: [
             { weight: '斤', price: newProductPricePerJin.value },
             { weight: '兩', price: newProductPricePerLiang.value },
             { weight: '錢', price: newProductPricePerQian.value }
         ]
     }
-    store.addProduct(newProduct)
-    console.log('add!');
+    addDoc(addProduct(),productContent.value)
+    .then((res)=>{
+        console.log(res.id);
+    })
     newProductName.value = '';
     newProductPricePerJin.value = '';
     newProductPricePerLiang.value = '';
     newProductPricePerQian.value = '';
+    alert('已新增');
+}
+
+const deleteBtn = () => {
+    deleteProduct(store.searchItem);
+    alert('已刪除');
+    store.searchItem = '';
+    store.currentProduct = '';
 }
 </script>
