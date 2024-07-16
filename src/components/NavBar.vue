@@ -8,7 +8,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <router-link to="/homepage" class="nav-link">查詢價格</router-link>
+                        <router-link to="/search" class="nav-link">查詢價格</router-link>
                     </li>
                     <li class="nav-item">
                         <router-link to="/prescription" class="nav-link">計算藥單</router-link>

@@ -6,6 +6,7 @@ import { fetchProductData,fetchCusData } from '@/stores/firebase.js';
 export const useProductsStore = defineStore('data',() => {
     const products = ref([]);
     const customers = ref([]);
+    const hasSearched = ref(false);
 
     //取得品項資料
     const getProduct = async() => {
@@ -24,8 +25,11 @@ export const useProductsStore = defineStore('data',() => {
     getCusData();
     const searchItem = ref('');
     const currentProduct = ref('');
-    async function search(){
+
+    async function search(e){
+        e.preventDefault();
         await getProduct();
+        hasSearched.value = true ;
         currentProduct.value = products.value.find((item)=>item.name===searchItem.value);
         if (currentProduct.value) {
             console.log('找到了產品:', currentProduct.value);
@@ -40,28 +44,13 @@ export const useProductsStore = defineStore('data',() => {
     function clean(){
         searchItem.value = '';
         currentProduct.value = '';
+        hasSearched.value = false ;
     }
     function addProduct(obj){
         products.value.push(obj);
         console.log(products.value);
         getProduct();
     };
-    // function deleteProduct(){
-    //     if (currentProduct.value) {
-    //         let index = products.value.findIndex((item) => item.name === currentProduct.value.name);
-    //         if (index !== -1) {
-    //             products.value.splice(index, 1);
-    //             currentProduct.value = ''; // 清除 currentProduct
-    //             searchItem.value = '';
-    //             console.log(products.value);
-    //             alert('產品已刪除');
-    //         } else {
-    //             console.log('未找到該產品');
-    //         }
-    //     } else {
-    //         alert('請先輸入欲刪除品項');
-    //     }
-    // };
     return{
         products,
         searchItem,
@@ -69,6 +58,7 @@ export const useProductsStore = defineStore('data',() => {
         currentProduct,
         search,
         addProduct,
+        hasSearched
     }
 })
 // export const useProductsStore = defineStore('products',{

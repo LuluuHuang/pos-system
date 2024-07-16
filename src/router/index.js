@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import HomePageView from'../views/HomePageView.vue'
+import SearchPriceView from'../views/SearchPriceView.vue'
 import PrescriptionView from '../views/PrescriptionView.vue'
 import UpdatePageView from '../views/UpdatePageView.vue'
 import HomeView from '../views/HomeView.vue'
@@ -13,8 +13,8 @@ const router = createRouter({
       component:HomeView
     },
     {
-      path:'/homepage',
-      component:HomePageView
+      path:'/search',
+      component:SearchPriceView
     },
     {
       path:'/prescription',
