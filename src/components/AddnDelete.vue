@@ -12,24 +12,18 @@
         <p>價錢</p>
         <input
             type="number"
-            name=""
-            id=""
             class="form-control my-2"
             v-model.number="newProductPricePerJin"
         />
         <div>元/斤</div>
         <input
             type="number"
-            name=""
-            id=""
             class="form-control my-2"
             v-model.number="newProductPricePerLiang"
         />
         <div>元/兩</div>
         <input
             type="number"
-            name=""
-            id=""
             class="form-control my-2"
             v-model.number="newProductPricePerQian"
         />
@@ -67,7 +61,6 @@ const newProductPricePerJin = ref()
 const newProductPricePerLiang = ref()
 const newProductPricePerQian = ref()
 const productContent = ref({})
-// const deleteItem = ref('');
 const getCurrentTime = () => {
     const now = new Date();
     const year = now.getFullYear();
