@@ -59,7 +59,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useProductsStore } from '../stores/products';
-import { addProduct,deleteProduct } from '@/stores/firebase.js';
+import { addProduct, deleteProduct } from '@/stores/firebase.js';
 import { addDoc } from 'firebase/firestore';
 const store = useProductsStore();
 const newProductName = ref('')

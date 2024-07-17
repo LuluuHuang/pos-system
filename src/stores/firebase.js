@@ -32,7 +32,7 @@ const fetchProductData = async() => {
         throw error;
     }
 }
-fetchProductData();
+// fetchProductData();
 
 //取得顧客資料
 const fetchCusData = async () => {
@@ -57,6 +57,12 @@ const addProduct = () => {
     return colRef;
 }
 
+//新增顧客資料
+const addCus = () => {
+    const colCus = collection(db,"customers");
+    return colCus;
+}
+
 //刪除品項
 async function deleteProduct(item){
     const colRef = collection(db,"products");
@@ -68,4 +74,4 @@ async function deleteProduct(item){
         deleteDoc(doc.ref);
     });
 }
-export { app, auth, fetchCusData, addProduct, deleteProduct,fetchProductData };
+export { app, auth, fetchCusData, addProduct, deleteProduct, fetchProductData, addCus };

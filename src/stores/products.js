@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import Swal from 'sweetalert2';
-import { fetchProductData,fetchCusData } from '@/stores/firebase.js';
+import { fetchProductData, fetchCusData } from '@/stores/firebase.js';
 
 export const useProductsStore = defineStore('data',() => {
     const products = ref([]);
@@ -12,17 +12,17 @@ export const useProductsStore = defineStore('data',() => {
     const getProduct = async() => {
         const res = await fetchProductData();
         products.value = res ;
-        console.log(products.value);
+        // console.log(products.value);
     }
-    // getProduct();
+
     //取得顧客資料
     const getCusData = async() => {
         const res = await fetchCusData();
-        console.log(res);
+        // console.log(res);
         customers.value = res ;
-        console.log(customers.value);
+        // console.log(customers.value);
     }
-    getCusData();
+
     const searchItem = ref('');
     const currentProduct = ref('');
 
@@ -46,19 +46,16 @@ export const useProductsStore = defineStore('data',() => {
         currentProduct.value = '';
         hasSearched.value = false ;
     }
-    function addProduct(obj){
-        products.value.push(obj);
-        console.log(products.value);
-        getProduct();
-    };
+
     return{
         products,
         searchItem,
         clean,
         currentProduct,
         search,
-        addProduct,
-        hasSearched
+        hasSearched,
+        getProduct,
+        getCusData
     }
 })
 // export const useProductsStore = defineStore('products',{
