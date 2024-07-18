@@ -10,18 +10,20 @@ const firebaseConfig = {
     appId: "1:541054694770:web:005b188cfdc438fa4a19eb"
 };
 
-import { getFirestore, collection, getDocs, deleteDoc, where, query} from 'firebase/firestore';
+import { getFirestore, collection, getDocs, deleteDoc, where, query, doc} from 'firebase/firestore';
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore();
+const colPro = collection(db,"products");
+const colCus = collection(db,"customers");
 
 //取得品項資料
 const fetchProductData = async() => {
-    const productsCollection = collection(db, "products");
+    // const productsCollection = collection(db, "products");
     try {
         const products = [];
-        await getDocs(productsCollection).then((res)=>{
+        await getDocs(colPro).then((res)=>{
             res.forEach((doc) => {
                 products.push(doc.data());
             });
@@ -36,10 +38,10 @@ const fetchProductData = async() => {
 
 //取得顧客資料
 const fetchCusData = async () => {
-    const customersCollection = collection(db,"customers");
+    // const customersCollection = collection(db,"customers");
     try {
         const customers = [];
-        await getDocs(customersCollection).then((res)=>{
+        await getDocs(colCus).then((res)=>{
             res.forEach((doc) => {
                 customers.push(doc.data());
             });
@@ -51,27 +53,34 @@ const fetchCusData = async () => {
     }
 }
 
-//新增品項
-const addProduct = () => {
-    const colRef = collection(db,"products");
-    return colRef;
-}
-
-//新增顧客資料
-const addCus = () => {
-    const colCus = collection(db,"customers");
-    return colCus;
-}
 
 //刪除品項
 async function deleteProduct(item){
-    const colRef = collection(db,"products");
-    const q = query(colRef, where('name', '==', item));
-    console.log(q);
+    // const colRef = collection(db,"products");
+    const q = query(colPro, where('name', '==', item));
     const querySnapshot = await getDocs(q);
-    console.log(querySnapshot);
     querySnapshot.forEach((doc) => {
         deleteDoc(doc.ref);
     });
 }
-export { app, auth, fetchCusData, addProduct, deleteProduct, fetchProductData, addCus };
+
+//取得id
+async function getID(item){
+    // const colRef = collection(db,"products");
+    const q = query(colPro, where('name', '==', item));
+    const querySnapshot = await getDocs(q);
+    let id = '';
+    querySnapshot.forEach((doc) => {
+        console.log(doc.ref.id);
+        id = doc.ref.id;
+    });
+    return id;
+}
+
+//更新資料庫
+function updateData(id){
+    const docPro = doc(db,'products',id);
+    console.log(docPro);
+    return docPro;
+};
+export { app, auth, fetchCusData , deleteProduct, fetchProductData, getID, colPro, colCus, updateData };

@@ -3,14 +3,12 @@ import { auth } from '@/stores/firebase.js';
 import { createUserWithEmailAndPassword,signInWithEmailAndPassword } from 'firebase/auth';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-// import { storeData } from '@/stores/firebase.js';
 
 const regAccount = ref('');
 const regPassword = ref('');
 const loginAccount = ref('');
 const loginPassword = ref('');
 const router = useRouter();
-// const productsData = ref([]);
 
 function reg(){
   createUserWithEmailAndPassword(auth,regAccount.value,regPassword.value)
@@ -31,21 +29,9 @@ function login(){
     }
   )
 }
-
-// storeData().then(data => {
-//   productsData.value = data[0].product;
-// }).catch(error => {
-//   console.error("Error: ", error);
-// });
-
 </script>
 
 <template>
-  <!-- <div class="row" >
-    <div v-for="(item,i) in productsData" :key="i">
-      {{ item.name }}
-    </div>
-  </div> -->
   <div class="row">
     <ul class="nav nav-tabs col-6 pt-3" id="myTab" role="tablist">
       <li class="nav-item" role="presentation">

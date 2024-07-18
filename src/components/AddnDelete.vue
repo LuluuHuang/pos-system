@@ -53,7 +53,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useProductsStore } from '../stores/products';
-import { addProduct, deleteProduct } from '@/stores/firebase.js';
+import { deleteProduct, colPro } from '@/stores/firebase.js';
 import { addDoc } from 'firebase/firestore';
 const store = useProductsStore();
 const newProductName = ref('')
@@ -61,24 +61,18 @@ const newProductPricePerJin = ref()
 const newProductPricePerLiang = ref()
 const newProductPricePerQian = ref()
 const productContent = ref({})
-const getCurrentTime = () => {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = now.getMonth() + 1 < 10 ? '0' + (now.getMonth() + 1) : now.getMonth() + 1;
-    const date = now.getDate() < 10 ? '0' + now.getDate() : now.getDate();
-    return `${year}年${month}月${date}日` ;
-}
+
 const add = () => {
     productContent.value = {
         name: newProductName.value,
-        date:getCurrentTime(),
+        date: store.getCurrentTime(),
         prices: [
             { weight: '斤', price: newProductPricePerJin.value },
             { weight: '兩', price: newProductPricePerLiang.value },
             { weight: '錢', price: newProductPricePerQian.value }
         ]
     }
-    addDoc(addProduct(),productContent.value)
+    addDoc(colPro,productContent.value)
     .then((res)=>{
         console.log(res.id);
     })

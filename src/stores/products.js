@@ -28,23 +28,36 @@ export const useProductsStore = defineStore('data',() => {
 
     async function search(e){
         e.preventDefault();
-        await getProduct();
-        hasSearched.value = true ;
-        currentProduct.value = products.value.find((item)=>item.name===searchItem.value);
-        if (currentProduct.value) {
-            console.log('找到了產品:', currentProduct.value);
+        if(searchItem.value == ''){
             Swal.fire({
-                text: '找到了' + currentProduct.value.name,
+                text: '請輸入品項名稱',
             });
-        } else {
-            alert('未找到該品項');
-            searchItem.value = '';
+        }else{
+            await getProduct();
+            hasSearched.value = true ;
+            currentProduct.value = products.value.find((item)=>item.name===searchItem.value);
+            if (currentProduct.value) {
+                Swal.fire({
+                    text: '找到了' + currentProduct.value.name,
+                });
+            } else {
+                alert('未找到該品項');
+                searchItem.value = '';
+            }
         }
     };
     function clean(){
         searchItem.value = '';
         currentProduct.value = '';
         hasSearched.value = false ;
+    }
+
+    const getCurrentTime = () => {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = now.getMonth() + 1 < 10 ? '0' + (now.getMonth() + 1) : now.getMonth() + 1;
+        const date = now.getDate() < 10 ? '0' + now.getDate() : now.getDate();
+        return `${year}年${month}月${date}日` ;
     }
 
     return{
@@ -55,7 +68,8 @@ export const useProductsStore = defineStore('data',() => {
         search,
         hasSearched,
         getProduct,
-        getCusData
+        getCusData,
+        getCurrentTime
     }
 })
 // export const useProductsStore = defineStore('products',{

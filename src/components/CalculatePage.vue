@@ -51,8 +51,8 @@
     import { ref,onMounted } from "vue";
     import { useProductsStore } from "../stores/products.js";
     import { addDoc } from 'firebase/firestore';
-    import { addCus } from '@/stores/firebase.js';
-
+    import { colCus } from '@/stores/firebase.js';
+    import Swal from 'sweetalert2';
 
     const store = useProductsStore();
     const selectedProduct = ref('');
@@ -95,6 +95,15 @@
             totalPrice:totalPrice.value,
             finalPrice:finalPrice.value
         }
-        addDoc(addCus(),cusData);
+        addDoc(colCus,cusData);
+        Swal.fire({
+            text: '已儲存藥單',
+        });
+        cusName.value = '';
+        cusPhone.value = '';
+        presName.value = '';
+        cartList.value = '';
+        totalPrice.value = '';
+        finalPrice.value = '';
     }
 </script>
