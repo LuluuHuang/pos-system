@@ -6,7 +6,6 @@ import { fetchProductData, fetchCusData } from '@/stores/firebase.js';
 export const useProductsStore = defineStore('data',() => {
     const products = ref([]);
     const customers = ref([]);
-    const hasSearched = ref(false);
 
     //取得品項資料
     const getProduct = async() => {
@@ -26,30 +25,50 @@ export const useProductsStore = defineStore('data',() => {
     const searchItem = ref('');
     const currentProduct = ref('');
 
-    async function search(e){
-        e.preventDefault();
-        if(searchItem.value == ''){
+    // async function search(e){
+    //     e.preventDefault();
+    //     if(searchItem.value == ''){
+    //         Swal.fire({
+    //             text: '請輸入品項名稱',
+    //         });
+    //     }else{
+    //         await getProduct();
+    //         hasSearched.value = true ;
+    //         currentProduct.value = products.value.find((item)=>item.name===searchItem.value);
+    //         if (currentProduct.value) {
+    //             console.log(currentProduct.value);
+    //             Swal.fire({
+    //                 text: '找到了' + currentProduct.value.name,
+    //             });
+    //         } else {
+    //             alert('未找到該品項');
+    //             searchItem.value = '';
+    //         }
+    //     }
+    // };
+    async function search(item){
+        if(item == ''){
             Swal.fire({
                 text: '請輸入品項名稱',
             });
         }else{
             await getProduct();
-            hasSearched.value = true ;
-            currentProduct.value = products.value.find((item)=>item.name===searchItem.value);
-            if (currentProduct.value) {
+            const theProduct = products.value.find((product)=>product.name===item);
+            if(theProduct){
+                // console.log(theProduct);
                 Swal.fire({
-                    text: '找到了' + currentProduct.value.name,
+                    text: '找到了' + theProduct.name,
                 });
-            } else {
+            return theProduct;
+            }else{
                 alert('未找到該品項');
-                searchItem.value = '';
             }
         }
-    };
+    }
+
     function clean(){
         searchItem.value = '';
         currentProduct.value = '';
-        hasSearched.value = false ;
     }
 
     const getCurrentTime = () => {
@@ -66,7 +85,6 @@ export const useProductsStore = defineStore('data',() => {
         clean,
         currentProduct,
         search,
-        hasSearched,
         getProduct,
         getCusData,
         getCurrentTime

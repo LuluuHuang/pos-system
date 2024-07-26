@@ -10,19 +10,31 @@
     // const history = ref([]);
     const productID = ref();
     const newPrice = ref({});
+    const searchItem = ref();
+    const searchResult = ref();
+    // const hasSearched = ref(false);
+
+
     const search = async(e) => {
         e.preventDefault();
-        await store.search(e);
-        console.log(store.currentProduct);
-        priceJin.value = store.currentProduct.prices[0].price;
-        priceLiang.value = store.currentProduct.prices[1].price;
-        priceQian.value = store.currentProduct.prices[2].price;
+        searchResult.value = await store.search(searchItem.value);
+        console.log(searchResult.value.name);
+        priceJin.value = searchResult.value.prices[0].price;
+        priceLiang.value = searchResult.value.prices[1].price;
+        priceQian.value = searchResult.value.prices[2].price;
+    }
+
+    const clean = () => {
+        searchItem.value = '';
+        priceJin.value = '';
+        priceLiang.value = '';
+        priceQian.value = '';
     }
     
     //更新價格
     const updatePrice = async(e) => {
         e.preventDefault();
-        productID.value = await getID(store.currentProduct.name);
+        productID.value = await getID(searchResult.value.name);
         console.log(productID.value);
         newPrice.value = {
             date:store.getCurrentTime(),
@@ -41,14 +53,14 @@
         <div class="col-lg-4 col-md-6 col-12 p-4">
             <h2>查詢價格</h2>
             <form>
-                <input type="text" v-model="store.searchItem" class="form-control my-3" placeholder="輸入品項名稱" required>
+                <input type="text" v-model="searchItem" class="form-control my-3" placeholder="輸入品項名稱" required>
                 <input type="submit" class="btn btn-primary me-3" value="查詢" @click="search">
-                <input type="button" class="btn btn-primary" value="清除" @click="store.clean">
+                <input type="button" class="btn btn-primary" value="清除" @click="clean">
             </form>
         </div>
         <div class="col-lg-4 col-md-6 col-12 p-4" >
             <h2>現今價格</h2>
-            <p v-if="store.hasSearched">{{store.currentProduct.name}}</p>
+            <!-- <p v-if="hasSearched">{{searchResult.value.name}}</p> -->
             <form>
                 <div class="input-group mb-3">
                     <input type="number" class="form-control" v-model="priceJin">
