@@ -1,45 +1,3 @@
-<!-- <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
-</script>
-
-<template>
-  <main>
-    <TheWelcome />
-  </main>
-</template> -->
-<script setup>
-import { auth } from '@/stores/firebase.js';
-import { createUserWithEmailAndPassword,signInWithEmailAndPassword } from 'firebase/auth';
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-
-const regAccount = ref('');
-const regPassword = ref('');
-const loginAccount = ref('');
-const loginPassword = ref('');
-const router = useRouter();
-
-function reg(){
-  createUserWithEmailAndPassword(auth,regAccount.value,regPassword.value)
-  .then(
-    ()=>{
-      console.log('註冊成功');
-      router.push('/homepage');
-    }
-  )
-}
-
-function login(){
-  signInWithEmailAndPassword(auth,loginAccount.value,loginPassword.value)
-  .then(
-    ()=>{
-      console.log('登入成功');
-      router.push('/homepage');
-    }
-  )
-}
-</script>
-
 <template>
   <div class="row">
     <ul class="nav nav-tabs col-6 pt-3" id="myTab" role="tablist">
@@ -72,3 +30,36 @@ function login(){
     </div>
   </div>
 </template>
+
+<script setup>
+import { auth } from '@/stores/firebase.js';
+import { createUserWithEmailAndPassword,signInWithEmailAndPassword } from 'firebase/auth';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const regAccount = ref('');
+const regPassword = ref('');
+const loginAccount = ref('');
+const loginPassword = ref('');
+const router = useRouter();
+
+function reg(){
+  createUserWithEmailAndPassword(auth,regAccount.value,regPassword.value)
+  .then(
+    ()=>{
+      console.log('註冊成功');
+      router.push('/homepage');
+    }
+  )
+}
+
+function login(){
+  signInWithEmailAndPassword(auth,loginAccount.value,loginPassword.value)
+  .then(
+    ()=>{
+      console.log('登入成功');
+      router.push('/homepage');
+    }
+  )
+}
+</script>
