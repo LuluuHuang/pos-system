@@ -16,6 +16,9 @@
                     <li class="nav-item">
                         <router-link to="/addndelete" class="nav-link">新增刪除</router-link>
                     </li>
+                    <li class="nav-item">
+                        <router-link to="/searchpres" class="nav-link">查詢藥單</router-link>
+                    </li>
                 </ul>
             </div>
         </div>

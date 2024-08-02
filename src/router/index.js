@@ -3,6 +3,7 @@ import SearchPriceView from'../views/SearchPriceView.vue'
 import PrescriptionView from '../views/PrescriptionView.vue'
 import HomeView from '../views/HomeView.vue'
 import AddnDeleteView from '../views/AddnDeleteView.vue'
+import SearchPresView from '../views/SearchPresView.vue'
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -22,6 +23,10 @@ const router = createRouter({
     {
       path:'/addndelete',
       component:AddnDeleteView
+    },
+    {
+      path:'/searchpres',
+      component:SearchPresView
     }
   ]
 })
