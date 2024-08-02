@@ -37,23 +37,26 @@
             <input type="text" class="form-control my-2" v-model="searchItem" required/>
             <input type="submit" class="btn btn-primary" value="查詢">    
         </form>
-        <div v-if="searchResult">
-            <p>進價：</p>
-            <p>{{ searchResult.name }}/斤</p>
-            <p>售價：</p>
-            <p v-for="(item, i) in searchResult.prices" :key="i">
-                {{ item.price }}/{{ item.weight }}
-            </p>
+        <div v-if="hasSearched">
+            <div v-if="searchResult">
+                <p>進價：{{ searchResult.purchasePrice }}/斤</p>
+                <p>售價：</p>
+                <ul v-for="(item, i) in searchResult.prices" :key="i">
+                    <li>{{ item.price }}/{{ item.weight }}</li>
+                </ul>
+            </div>
+            <div v-else>
+                <p>無此商品</p>
+            </div>
+            <button class="btn btn-primary" @click="deleteBtn">確定刪除</button>
         </div>
-        <div v-else>
-            <p>無此商品</p>
-        </div>
-        <button class="btn btn-primary" @click="deleteBtn">確定刪除</button>
+        <div v-else></div>
         </div>
     </div>
 </template>
 <script setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
+import Swal from 'sweetalert2';
 import { useProductsStore } from '../stores/products';
 import { deleteProduct, colPro } from '@/stores/firebase.js';
 import { addDoc } from 'firebase/firestore';
@@ -67,6 +70,7 @@ const productContent = ref({});
 const searchItem = ref('');
 const searchResult = ref([]);
 const hasSearched = ref(false);
+const history = ref([]);
 
 const add = () => {
     productContent.value = {
@@ -77,27 +81,32 @@ const add = () => {
             { weight: '斤', price: priceJin.value },
             { weight: '兩', price: priceLiang.value },
             { weight: '錢', price: priceQian.value }
-        ]
-        //新增history:[]
+        ],
+        history:history.value
     }
     addDoc(colPro,productContent.value)
     .then((res)=>{
         console.log(res.id);
     })
+    .catch((error) => {
+        console.error("Error adding document: ", error);
+        Swal.fire({
+            text: '新增失敗',
+        });
+    });
     productName.value = '';
     priceJin.value = '';
     priceLiang.value = '';
     priceQian.value = '';
     purchasePrice.value = '';
-    alert('已新增');
+    Swal.fire({
+        text: '已新增',
+    });
 }
 
 const search = async() => {
     try {
         searchResult.value = await store.search(searchItem.value);
-        console.log(searchResult.value);
-        console.log(searchResult.value.name);
-        console.log(searchResult.value.prices);
         hasSearched.value = true;
     } catch (error) {
         console.error('Error during search:', error);
@@ -106,7 +115,10 @@ const search = async() => {
 
 const deleteBtn = () => {
     deleteProduct(searchItem.value);
-    alert('已刪除');
+    Swal.fire({
+        text: '已刪除',
+    });
     searchItem.value = '';
+    hasSearched.value = false;
 }
 </script>

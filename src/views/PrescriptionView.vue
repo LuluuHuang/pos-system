@@ -93,7 +93,8 @@
             presName:presName.value,
             presContent:cartList.value,
             totalPrice:totalPrice.value,
-            finalPrice:finalPrice.value
+            finalPrice:finalPrice.value,
+            date:store.getCurrentTime()
         }
         addDoc(colCus,cusData);
         Swal.fire({

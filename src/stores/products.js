@@ -16,8 +16,28 @@ export const useProductsStore = defineStore('data',() => {
         const res = await fetchCusData();
         customers.value = res ;
     }
-    const searchItem = ref('');
-    const currentProduct = ref('');
+    //搜尋顧客資料
+    async function searchCus(num){
+        if(num == ''){
+            Swal.fire({
+                text: '請輸入電話號碼',
+            });
+        }else{
+            await getCusData();
+            const theCus = customers.value.find((customer)=>customer.phone === num);
+            if(theCus){
+                Swal.fire({
+                    text: '找到了' + theCus.name,
+                });
+                return theCus;
+            }else{
+                Swal.fire({
+                    text: '未找到該顧客資料',
+                });
+            }
+        }
+    }
+    //搜尋產品資料
     async function search(item){
         if(item == ''){
             Swal.fire({
@@ -25,7 +45,7 @@ export const useProductsStore = defineStore('data',() => {
             });
         }else{
             await getProduct();
-            const theProduct = products.value.find((product)=>product.name===item);
+            const theProduct = products.value.find((product)=>product.name === item);
             if(theProduct){
                 Swal.fire({
                     text: '找到了' + theProduct.name,
@@ -36,10 +56,6 @@ export const useProductsStore = defineStore('data',() => {
             }
         }
     }
-    function clean(){
-        searchItem.value = '';
-        currentProduct.value = '';
-    }
     const getCurrentTime = () => {
         const now = new Date();
         const year = now.getFullYear();
@@ -49,10 +65,8 @@ export const useProductsStore = defineStore('data',() => {
     }
     return{
         products,
-        searchItem,
-        clean,
-        currentProduct,
         search,
+        searchCus,
         getProduct,
         getCusData,
         getCurrentTime

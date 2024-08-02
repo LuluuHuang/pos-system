@@ -64,6 +64,15 @@ async function deleteProduct(item){
     });
 }
 
+//刪除顧客
+async function deleteCustomer(num){
+    const q = query(colCus, where('phone', '==', num));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+        deleteDoc(doc.ref);
+    });
+}
+
 //取得id
 async function getID(item){
     // const colRef = collection(db,"products");
@@ -83,4 +92,4 @@ function updateData(id){
     console.log(docPro);
     return docPro;
 };
-export { app, auth, fetchCusData , deleteProduct, fetchProductData, getID, colPro, colCus, updateData };
+export { app, auth, fetchCusData , deleteProduct, deleteCustomer, fetchProductData, getID, colPro, colCus, updateData };
