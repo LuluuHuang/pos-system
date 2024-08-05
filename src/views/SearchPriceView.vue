@@ -2,16 +2,15 @@
     <div class="row">
         <div class="col-lg-4 col-md-6 col-12 p-4">
             <h2>查詢價格</h2>
-            <form>
+            <form @submit.prevent="search">
                 <input type="text" v-model="searchItem" class="form-control my-3" placeholder="輸入品項名稱" required>
-                <input type="submit" class="btn btn-primary me-3" value="查詢" @click="search">
-                <input type="button" class="btn btn-primary" value="清除" @click="clean">
+                <button type="submit" class="btn btn-primary me-3">查詢</button>
+                <button type="reset" class="btn btn-primary" @click="clean">清除</button>
             </form>
         </div>
         <div class="col-lg-4 col-md-6 col-12 p-4" >
             <h2>現今價格</h2>
-            <!-- <p v-if="hasSearched">{{searchResult.value.name}}</p> -->
-            <form>
+            <form @submit.prevent="updatePrice">
                 <div class="input-group mb-3">
                     <input type="number" class="form-control" v-model="purchasePrice">
                     <span class="input-group-text">/斤（進價）</span>
@@ -28,7 +27,7 @@
                     <input type="number" class="form-control" v-model="priceQian">
                     <span class="input-group-text">/錢</span>
                 </div>
-                <input type="submit" class="btn btn-primary" value="更新" @click="updatePrice">
+                <input type="submit" class="btn btn-primary" value="更新">
             </form>
         </div>
         <div class="col-lg-4 col-md-6 col-12 p-4">
@@ -69,8 +68,10 @@
     const searchResult = ref();
     const hasSearched = ref(false);
 
-    const search = async(e) => {
-        e.preventDefault();
+    const search = async(item) => {
+        console.log('123',item);
+        
+        console.log(searchItem.value);
         searchResult.value = await store.search(searchItem.value);
         console.log(searchResult.value);
         purchasePrice.value = searchResult.value.purchasePrice;
@@ -90,13 +91,13 @@
     }
     
     //更新價格
-    const updatePrice = async(e) => {
-        e.preventDefault();
+    const updatePrice = async() => {
         productID.value = await getID(searchResult.value.name);
         console.log(productID.value);
         newPrice.value = {
             date:store.getCurrentTime(),
             purchasePrice:purchasePrice.value,
+            name:searchItem.value,
             prices:[
                 { weight:'斤', price:priceJin.value },
                 { weight:'兩', price:priceLiang.value },
@@ -112,5 +113,6 @@
             text: '已更新',
         });
         setDoc(updateData(productID.value),newPrice.value,{merge:true});
+        search(123);
     }
 </script>

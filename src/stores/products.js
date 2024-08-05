@@ -9,7 +9,8 @@ export const useProductsStore = defineStore('data',() => {
     //取得品項資料
     const getProduct = async() => {
         const res = await fetchProductData();
-        products.value = res ;
+        console.log(res);
+        products.value = res ;        
     }
     //取得顧客資料
     const getCusData = async() => {
@@ -39,13 +40,20 @@ export const useProductsStore = defineStore('data',() => {
     }
     //搜尋產品資料
     async function search(item){
+        console.log('1');
+        
+        console.log(item);
+        
         if(item == ''){
             Swal.fire({
                 text: '請輸入品項名稱',
             });
         }else{
             await getProduct();
+            console.log(products.value);
             const theProduct = products.value.find((product)=>product.name === item);
+            console.log(theProduct);
+            
             if(theProduct){
                 Swal.fire({
                     text: '找到了' + theProduct.name,
