@@ -3,7 +3,7 @@ import { RouterView } from 'vue-router'
 </script>
 
 <template>
-  <div class="container">
+  <div class="container-fluid">
     <router-view></router-view>
   </div>
 </template>

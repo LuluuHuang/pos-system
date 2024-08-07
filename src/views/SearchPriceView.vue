@@ -56,7 +56,7 @@
     import Swal from 'sweetalert2';
     import { useProductsStore } from "../stores/products.js";
     import { getID, updateData }from '@/stores/firebase.js';
-    import { setDoc } from "firebase/firestore";
+    import { updateDoc } from "firebase/firestore";
     const store = useProductsStore();
     const purchasePrice = ref();
     const priceJin = ref();
@@ -97,7 +97,6 @@
         newPrice.value = {
             date:store.getCurrentTime(),
             purchasePrice:purchasePrice.value,
-            name:searchItem.value,
             prices:[
                 { weight:'斤', price:priceJin.value },
                 { weight:'兩', price:priceLiang.value },
@@ -112,7 +111,7 @@
         Swal.fire({
             text: '已更新',
         });
-        setDoc(updateData(productID.value),newPrice.value,{merge:true});
+        updateDoc(updateData(productID.value),newPrice.value,{merge:true});
         search(123);
     }
 </script>
