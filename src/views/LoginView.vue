@@ -15,18 +15,18 @@
         <div class="tab-content" id="myTabContent">
             <div  class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
                 <div class="col-12 pt-3">
-                <input class="form-control" type="text" name="" id="" v-model="loginAccount">
+                <input class="form-control" type="text" v-model="loginAccount">
                 <br>
-                <input class="form-control" type="password" name="" id="" v-model="loginPassword">
+                <input class="form-control" type="password" v-model="loginPassword">
                 <br>
                 <button type="button" class="btn btn-primary" @click="login">登入</button>
                 </div>
             </div>
             <div class="tab-pane fade"  id="reg" role="tabpanel" aria-labelledby="reg-tab">
                 <div class="col-12 pt-3">
-                <input class="form-control" type="text" name="" id="" v-model="regAccount">
+                <input class="form-control" type="text" v-model="regAccount">
                 <br>
-                <input class="form-control" type="password" name="" id="" v-model="regPassword">
+                <input class="form-control" type="password" v-model="regPassword">
                 <br>
                 <button type="button" class="btn btn-primary" @click="reg">註冊</button>
                 </div>

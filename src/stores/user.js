@@ -1,12 +1,11 @@
 import { defineStore } from "pinia";
 import { auth } from '@/stores/firebase.js';
-import { signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import { ref } from 'vue';
 
 export const useUserStore = defineStore('user',()=>{
     const user = ref(null);
-    // const isAuthenticated = ref(false);
-    // const roles = ref([]);
+    const initialized = ref(false);
     
     //登入
     const login = async(email,password) => {
@@ -24,6 +23,8 @@ export const useUserStore = defineStore('user',()=>{
         try{
             await signOut(auth);
             user.value = null;
+            console.log(user.value);
+            
         }catch(error){
             console.log(error);
         }
@@ -41,9 +42,20 @@ export const useUserStore = defineStore('user',()=>{
         }
     }
 
+    const checkAuthState = async() => {
+        onAuthStateChanged(auth,(user)=>{
+            user.value = user;
+            console.log(user.value);
+            initialized.value = true;
+        })
+    }
+
     return{
+        user,
         login,
         logout,
-        register
+        register,
+        initialized,
+        checkAuthState
     }
 })

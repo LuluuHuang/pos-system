@@ -1,5 +1,14 @@
 <script setup>
-import { RouterView } from 'vue-router'
+import { RouterView } from 'vue-router';
+import { useUserStore } from './stores/user.js';
+import { onMounted } from 'vue';
+const store = useUserStore();
+// const router = useRouter();
+
+onMounted(() => {
+  store.checkAuthState();
+});
+
 </script>
 
 <template>

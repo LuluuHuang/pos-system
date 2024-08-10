@@ -68,12 +68,8 @@
     const searchResult = ref();
     const hasSearched = ref(false);
 
-    const search = async(item) => {
-        console.log('123',item);
-        
-        console.log(searchItem.value);
+    const search = async() => {
         searchResult.value = await store.search(searchItem.value);
-        console.log(searchResult.value);
         purchasePrice.value = searchResult.value.purchasePrice;
         priceJin.value = searchResult.value.prices[0].price;
         priceLiang.value = searchResult.value.prices[1].price;
@@ -112,6 +108,6 @@
             text: '已更新',
         });
         updateDoc(updateData(productID.value),newPrice.value,{merge:true});
-        search(123);
+        // search();
     }
 </script>
