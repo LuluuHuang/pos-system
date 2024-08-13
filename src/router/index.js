@@ -6,7 +6,8 @@ import AddnDeleteView from '../views/AddnDeleteView.vue'
 import SearchPresView from '../views/SearchPresView.vue'
 import MainLayouotView from '../views/MainLayouotView.vue'
 import LoginView from '../views/LoginView.vue'
-import { useUserStore } from '../stores/user'
+import { useUserStore } from '@/stores/user'
+// import { useUserStore } from '../stores/user'
 
 
 const router = createRouter({
@@ -14,15 +15,17 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/login'  // 將根路徑重定向到 /login
+      redirect: '/login',  // Redirect root path to /login
+      meta: { requiresAuth: false },
     },
     {
       path:'/login',
       name:'Login',
-      component:LoginView
+      component:LoginView,
+      meta: { requiresAuth: false },
     },
     {
-      path:'/',
+      path:'/main',
       component: MainLayouotView,
       children:[
         {
@@ -62,10 +65,21 @@ const router = createRouter({
 
 router.beforeEach((to,from,next)=>{
   const store = useUserStore();
+  // const isLogIn = store.user;
+  // if(isLogIn && to.path === '/login'){
+  //   console.log(1);
+  //   next('/main/search');
+  // }else if(!isLogIn && to.meta.requiresAuth){
+  //   console.log(2);
+  //   next('/login');
+  // }else{
+  //   console.log(3);
+  //   next();
+  // }
   if(store.user != ''){
     next();
   }else{
-    next('/login');
+    next('/login')
   }
 })
 

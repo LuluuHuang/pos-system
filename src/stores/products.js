@@ -48,12 +48,11 @@ export const useProductsStore = defineStore('data',() => {
             await getProduct();
             const theProduct = products.value.find((product)=>product.name === item);
             if(theProduct){
-                Swal.fire({
-                    text: '找到了' + theProduct.name,
-                });
-            return theProduct;
+                return theProduct;
             }else{
-                alert('未找到該品項');
+                Swal.fire({
+                    text: '未找到該品項',
+                });
             }
         }
     }

@@ -5,7 +5,6 @@ import { ref } from 'vue';
 
 export const useUserStore = defineStore('user',()=>{
     const user = ref(null);
-    const initialized = ref(false);
     
     //登入
     const login = async(email,password) => {
@@ -24,7 +23,6 @@ export const useUserStore = defineStore('user',()=>{
             await signOut(auth);
             user.value = null;
             console.log(user.value);
-            
         }catch(error){
             console.log(error);
         }
@@ -42,20 +40,23 @@ export const useUserStore = defineStore('user',()=>{
         }
     }
 
-    const checkAuthState = async() => {
-        onAuthStateChanged(auth,(user)=>{
-            user.value = user;
-            console.log(user.value);
-            initialized.value = true;
+    const checkAuthState = () => {
+        console.log('auth');
+        onAuthStateChanged(auth,(userInfo)=>{
+            if(userInfo){
+                user.value = userInfo;
+                console.log(user.value);
+            }else{
+                user.value = null;
+            }
         })
     }
-
+    
     return{
         user,
         login,
         logout,
         register,
-        initialized,
         checkAuthState
     }
 })

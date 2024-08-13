@@ -52,7 +52,7 @@ const store = useUserStore();
 const login = async() => {
     try{
         await store.login(loginAccount.value,loginPassword.value);
-        router.push('/home');
+        router.push('/main/search');
     }
     catch(error){
         Swal.fire({

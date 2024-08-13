@@ -2,8 +2,9 @@
 import { RouterView } from 'vue-router';
 import { useUserStore } from './stores/user.js';
 import { onMounted } from 'vue';
+// import { useRouter } from 'vue-router';
+
 const store = useUserStore();
-// const router = useRouter();
 
 onMounted(() => {
   store.checkAuthState();

@@ -108,6 +108,6 @@
             text: '已更新',
         });
         updateDoc(updateData(productID.value),newPrice.value,{merge:true});
-        // search();
+        search();
     }
 </script>
