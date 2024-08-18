@@ -35,8 +35,13 @@ export const useUserStore = defineStore('user',()=>{
             console.log(regDetail);
         }
         catch(error){
-            console.log(error);
-            throw error;
+            if (error.code === 'auth/email-already-in-use') {
+                console.log('This email is already in use.');
+                throw new Error('This email is already registered. Please use a different email.');
+            } else {
+                console.log(error);
+                throw error;
+            }
         }
     }
 

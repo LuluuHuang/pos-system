@@ -5,27 +5,26 @@ import PrescriptionView from '../views/PrescriptionView.vue'
 import AddnDeleteView from '../views/AddnDeleteView.vue'
 import SearchPresView from '../views/SearchPresView.vue'
 import MainLayouotView from '../views/MainLayouotView.vue'
-// import LoginView from '../views/LoginView.vue'
-// import { useUserStore } from '../stores/user'
+import LoginView from '../views/LoginView.vue'
+import { useUserStore } from '../stores/user'
 
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
-    // {
-    //   path: '/',
-    //   redirect: '/login',  // Redirect root path to /login
-    //   meta: { requiresAuth: false },
-    // },
-    // {
-    //   path:'/login',
-    //   name:'Login',
-    //   component:LoginView,
-    //   meta: { requiresAuth: false },
-    // },
+    {
+      path: '/',
+      redirect: '/login',  // Redirect root path to /login
+      meta: { requiresAuth: false },
+    },
+    {
+      path:'/login',
+      name:'Login',
+      component:LoginView,
+      meta: { requiresAuth: false },
+    },
     {
       path:'/',
-      redirect: '/search',
       component: MainLayouotView,
       children:[
         // {
@@ -63,24 +62,24 @@ const router = createRouter({
   ]
 })
 
-// router.beforeEach((to,from,next)=>{
-//   const store = useUserStore();
-//   // const isLogIn = store.user;
-//   // if(isLogIn && to.path === '/login'){
-//   //   console.log(1);
-//   //   next('/main/search');
-//   // }else if(!isLogIn && to.meta.requiresAuth){
-//   //   console.log(2);
-//   //   next('/login');
-//   // }else{
-//   //   console.log(3);
-//   //   next();
-//   // }
-//   if(store.user != ''){
-//     next();
-//   }else{
-//     next('/login')
-//   }
-// })
+router.beforeEach((to,from,next)=>{
+  const store = useUserStore();
+  // const isLogIn = store.user;
+  // if(isLogIn && to.path === '/login'){
+  //   console.log(1);
+  //   next('/main/search');
+  // }else if(!isLogIn && to.meta.requiresAuth){
+  //   console.log(2);
+  //   next('/login');
+  // }else{
+  //   console.log(3);
+  //   next();
+  // }
+  if(store.user != ''){
+    next();
+  }else{
+    next('/login')
+  }
+})
 
 export default router

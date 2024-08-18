@@ -15,20 +15,20 @@
         <div class="tab-content" id="myTabContent">
             <div  class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
                 <div class="col-12 pt-3">
-                <input class="form-control" type="text" v-model="loginAccount">
-                <br>
-                <input class="form-control" type="password" v-model="loginPassword">
-                <br>
-                <button type="button" class="btn btn-primary" @click="login">登入</button>
+                    <input class="form-control" type="text" v-model="loginAccount" required>
+                    <br>
+                    <input class="form-control" type="password" v-model="loginPassword" required>
+                    <br>
+                    <button type="button" class="btn btn-primary" @click="login">登入</button>
                 </div>
             </div>
             <div class="tab-pane fade"  id="reg" role="tabpanel" aria-labelledby="reg-tab">
                 <div class="col-12 pt-3">
-                <input class="form-control" type="text" v-model="regAccount">
-                <br>
-                <input class="form-control" type="password" v-model="regPassword">
-                <br>
-                <button type="button" class="btn btn-primary" @click="reg">註冊</button>
+                    <input class="form-control" type="text" v-model="regAccount">
+                    <br>
+                    <input class="form-control" type="password" v-model="regPassword">
+                    <br>
+                    <button type="button" class="btn btn-primary" @click="reg">註冊</button>
                 </div>
             </div>
         </div>
@@ -52,7 +52,7 @@ const store = useUserStore();
 const login = async() => {
     try{
         await store.login(loginAccount.value,loginPassword.value);
-        router.push('/main/search');
+        router.push('/search');
     }
     catch(error){
         Swal.fire({
@@ -68,14 +68,23 @@ const reg = async() => {
         await store.register(regAccount.value,regPassword.value);
         Swal.fire({
             text: '註冊成功,請重新登入',
+            icon: 'success',
         });
         regAccount.value = '';
         regPassword.value = '';
     }
     catch(error){
-        Swal.fire({
-            text: '註冊失敗',
-        });
+        if (error.message.includes('email is already registered')) {
+            Swal.fire({
+                text: '註冊失敗: 此信箱已被使用',
+                icon: 'error',
+            });
+        } else {
+            Swal.fire({
+                text: '註冊失敗: ' + error.message,
+                icon: 'error',
+            });
+        }
         regAccount.value = '';
         regPassword.value = '';
     }
