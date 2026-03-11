@@ -2,13 +2,13 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCqaF_7VDfdtsm6KgwXph5i1Jy5fAMMMEw",
-    authDomain: "price-pos.firebaseapp.com",
-    projectId: "price-pos",
-    storageBucket: "price-pos.appspot.com",
-    messagingSenderId: "541054694770",
-    appId: "1:541054694770:web:005b188cfdc438fa4a19eb"
-};
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_FIREBASE_APP_ID
+}
 
 import { getFirestore, collection, getDocs, deleteDoc, where, query, doc} from 'firebase/firestore';
 
